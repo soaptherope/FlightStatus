@@ -1,17 +1,21 @@
 package airAstana.flightStatus.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@Entity
+@Table(name="flights")
 public class Flight {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="ID")
-    private int id;
+    private Long id;
 
     @Column(name="Origin")
     private String origin;
@@ -19,10 +23,13 @@ public class Flight {
     @Column(name="Destination")
     private String destination;
 
+    @Column(name="Departure")
+    private LocalDateTime departure;
+
     @Column(name="Arrival")
-    private DateTimeFormat arrival;
+    private LocalDateTime arrival;
 
     @Column(name="Status")
-    private Status status;
+    private STATUS status;
 
 }
