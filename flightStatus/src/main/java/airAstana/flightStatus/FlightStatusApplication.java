@@ -8,6 +8,7 @@ public class FlightStatusApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FlightStatusApplication.class, args);
+
 	}
 
 }
