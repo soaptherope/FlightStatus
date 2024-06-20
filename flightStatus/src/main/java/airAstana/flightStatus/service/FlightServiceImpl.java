@@ -1,7 +1,7 @@
 package airAstana.flightStatus.service;
 
 import airAstana.flightStatus.model.Flight;
-import airAstana.flightStatus.model.STATUS;
+import airAstana.flightStatus.model.Status;
 import airAstana.flightStatus.repository.FlightRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,7 +18,6 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> getFlights() {
         return flightRepository.findFlights(origin, destination, Sort.by(Sort.Direction.ASC, "arrival"));
-
     }
 
     @Override
@@ -27,7 +26,7 @@ public class FlightServiceImpl implements FlightService {
     }
 
     @Override
-    public Flight updateFlightStatus(int id, STATUS status) {
+    public Flight updateFlightStatus(int id, Status status) {
         return null;
     }
 }

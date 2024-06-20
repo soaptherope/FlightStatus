@@ -1,7 +1,7 @@
 package airAstana.flightStatus.controller;
 
 import airAstana.flightStatus.model.Flight;
-import airAstana.flightStatus.model.STATUS;
+import airAstana.flightStatus.model.Status;
 import airAstana.flightStatus.service.FlightService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ public class FlightController {
     }
 
     @PutMapping("/status/{id}")
-    public ResponseEntity<Flight> updateFlightStatus(@PathVariable int id, @RequestParam STATUS status) {
+    public ResponseEntity<Flight> updateFlightStatus(@PathVariable int id, @RequestParam Status status) {
         Flight updatedFlight = flightService.updateFlightStatus(id, status);
         return ResponseEntity.ok(updatedFlight);
     }

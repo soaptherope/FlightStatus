@@ -1,7 +1,7 @@
 package airAstana.flightStatus.service;
 
 import airAstana.flightStatus.model.Flight;
-import airAstana.flightStatus.model.STATUS;
+import airAstana.flightStatus.model.Status;
 import java.util.List;
 
 public interface FlightService {
@@ -9,5 +9,5 @@ public interface FlightService {
 
     Flight addFlight(Flight flight);
 
-    Flight updateFlightStatus(int id, STATUS status);
+    Flight updateFlightStatus(int id, Status status);
 }

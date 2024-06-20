@@ -1,16 +1,17 @@
 package airAstana.flightStatus.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @Entity
 @NoArgsConstructor
-@Table(name="roles")
+@Table(name="roles", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "Code")
+})
 public class Role {
 
     public Role(EnumRole name) {
@@ -19,10 +20,9 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="Code")
+    @Column(name="code")
     private EnumRole name;
 }
