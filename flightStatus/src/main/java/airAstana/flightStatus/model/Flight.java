@@ -2,10 +2,8 @@ package airAstana.flightStatus.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @Entity
@@ -20,9 +18,10 @@ public class Flight {
 
     private String destination;
 
-    private LocalDateTime departure;
+    private ZonedDateTime departure;
 
-    private LocalDateTime arrival;
+    private ZonedDateTime arrival;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 }

@@ -2,16 +2,13 @@ package airAstana.flightStatus.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 @Data
 @Entity
 @NoArgsConstructor
-@Table(name="roles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "Code")
-})
+@Table(name="roles")
 public class Role {
 
     public Role(EnumRole name) {

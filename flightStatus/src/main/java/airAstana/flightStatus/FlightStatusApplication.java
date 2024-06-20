@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-@OpenAPIDefinition
 public class FlightStatusApplication {
 
 	public static void main(String[] args) {
