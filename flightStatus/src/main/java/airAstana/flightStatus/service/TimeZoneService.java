@@ -1,8 +1,13 @@
 package airAstana.flightStatus.service;
 
+import airAstana.flightStatus.exception.InvalidCityException;
 import airAstana.flightStatus.model.dto.FlightDto;
 
-public interface TimeZoneService {
+import java.time.ZonedDateTime;
 
-    int getTimeZoneDifference(FlightDto flightDto);
+public interface TimeZoneService {
+    double[] getCoordinates(String city);
+    int getUtcOffset(double[] coordinates);
+
+    ZonedDateTime getZonedDateTime(ZonedDateTime zonedDateTime, String city);
 }

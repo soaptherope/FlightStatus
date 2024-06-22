@@ -7,7 +7,10 @@ import airAstana.flightStatus.model.dto.FlightDto;
 import airAstana.flightStatus.repository.FlightRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLOutput;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -48,15 +51,23 @@ public class FlightServiceImpl implements FlightService {
         ZonedDateTime departure = flightDto.getArrival();
         ZonedDateTime arrival = flightDto.getDeparture();
 
+        double[] originCoordinates = timeZoneService.getCoordinates(flightDto.getOrigin());
+        double[] destinationCoordinates = timeZoneService.getCoordinates(flightDto.getDestination());
+
+        int originUtcOffset = timeZoneService.getUtcOffset(originCoordinates);
+        int destinationUtcOffset = timeZoneService.getUtcOffset(destinationCoordinates);
+        int differenceBetweenTimeZones = destinationUtcOffset - originUtcOffset;
+
         if (departure == null || arrival == null ) {
             throw new IllegalArgumentException("invalid date and time provided: " + departure + ", " + arrival);
         }
 
-        if (!arrival.plusHours(timeZoneService.getTimeZoneDifference(flightDto)).isAfter(departure)) {
+        if (!arrival.plusHours(differenceBetweenTimeZones).isAfter(departure)) {
             throw new ArrivalIsBeforeDepartureException("arrival cannot be before departure");
         }
     }
 
+    @Transactional
     private void validateFlight(FlightDto flightDto) {
         validateStatus(flightDto.getStatus());
         validateOrigin(flightDto.getOrigin());
@@ -109,8 +120,10 @@ public class FlightServiceImpl implements FlightService {
         Flight flight = new Flight();
         flight.setOrigin(flightDto.getOrigin());
         flight.setDestination(flightDto.getDestination());
-        flight.setDeparture(flightDto.getDeparture());
-        flight.setArrival(flightDto.getArrival());
+
+        flight.setDeparture(timeZoneService.getZonedDateTime(flightDto.getDeparture(), flightDto.getOrigin()));
+        flight.setArrival(timeZoneService.getZonedDateTime(flightDto.getArrival(), flightDto.getDestination()));
+
         flight.setStatus(flightDto.getStatus());
 
         return flightRepository.save(flight);

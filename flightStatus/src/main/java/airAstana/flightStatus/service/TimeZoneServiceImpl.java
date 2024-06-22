@@ -5,8 +5,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+
 import airAstana.flightStatus.exception.InvalidCityException;
-import airAstana.flightStatus.model.dto.FlightDto;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,17 +22,7 @@ public class TimeZoneServiceImpl implements TimeZoneService {
     @Value("${google.apikey}")
     String API_KEY;
 
-    @Override
-    public int getTimeZoneDifference(FlightDto flightDto) {
-        String origin = flightDto.getOrigin();
-        String destination = flightDto.getDestination();
-
-        int originUtcOffset = getUtcOffset(getCoordinates(origin));
-        int destinationUtcOffset = getUtcOffset(getCoordinates(destination));
-        return destinationUtcOffset - originUtcOffset;
-    }
-
-    private double[] getCoordinates(String city) throws InvalidCityException {
+    public double[] getCoordinates(String city) throws InvalidCityException {
         double[] coordinates = new double[2];
 
         try {
@@ -43,36 +35,40 @@ public class TimeZoneServiceImpl implements TimeZoneService {
                     .send(request, HttpResponse.BodyHandlers.ofString());
 
             JSONObject jsonObject = new JSONObject(response.body());
-            JSONArray resultsArray = jsonObject.getJSONArray("results");
-            if (resultsArray.length() > 0) {
-                JSONObject firstResult = resultsArray.getJSONObject(0);
-                JSONObject geometry = firstResult.getJSONObject("geometry");
-                JSONObject location = geometry.getJSONObject("location");
+            String status = jsonObject.getString("status");
 
-                double lat = location.getDouble("lat");
-                double lng = location.getDouble("lng");
-                coordinates[0] = lat;
-                coordinates[1] = lng;
+            if ("OK".equals(status)) {
+                JSONArray resultsArray = jsonObject.getJSONArray("results");
+                if (resultsArray.length() > 0) {
+                    JSONObject firstResult = resultsArray.getJSONObject(0);
+                    JSONObject geometry = firstResult.getJSONObject("geometry");
+                    JSONObject location = geometry.getJSONObject("location");
 
-                return coordinates;
+                    double lat = location.getDouble("lat");
+                    double lng = location.getDouble("lng");
+                    coordinates[0] = lat;
+                    coordinates[1] = lng;
+
+                    return coordinates;
+                }
             } else {
                 throw new InvalidCityException("invalid city specified");
             }
-
         } catch (IOException | InterruptedException | JSONException e) {
             e.printStackTrace();
         }
         return coordinates;
     }
 
-    private int getUtcOffset(double[] coordinates) {
+    @Override
+    public int getUtcOffset(double[] coordinates) {
         double lat = coordinates[0];
         double lng = coordinates[1];
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()
-                    .uri(URI.create("https://maps.googleapis.com/maps/api/timezone/json?location=" + lat + "%2C-" + lng + "&timestamp=1577836800&key=" + API_KEY))
+                    .uri(URI.create("https://maps.googleapis.com/maps/api/timezone/json?location=" + lat + "%2C" + lng + "&timestamp=1577836800&key=" + API_KEY))
                     .build();
 
             HttpResponse<String> response = HttpClient.newHttpClient()
@@ -80,9 +76,8 @@ public class TimeZoneServiceImpl implements TimeZoneService {
 
             JSONObject jsonObject = new JSONObject(response.body());
             String status = jsonObject.getString("status");
-
             if ("OK".equals(status)) {
-                return jsonObject.getInt("rawOffset");
+                return jsonObject.getInt("rawOffset") / 3600;
             } else {
                 throw new JSONException("error while getting data");
             }
@@ -90,6 +85,14 @@ public class TimeZoneServiceImpl implements TimeZoneService {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    @Override
+    public ZonedDateTime getZonedDateTime(ZonedDateTime zonedDateTime, String city) {
+        int utcOffset = getUtcOffset(getCoordinates(city));
+        ZoneOffset zoneOffset = ZoneOffset.ofHours(utcOffset);
+
+        return zonedDateTime.withZoneSameInstant(zoneOffset);
     }
 }
 
