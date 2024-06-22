@@ -28,5 +28,5 @@ CREATE TABLE flights (
     departure TIMESTAMP WITH TIME ZONE NOT NULL,
     arrival TIMESTAMP WITH TIME ZONE NOT NULL,
     status VARCHAR(20) NOT NULL,
-    CONSTRAINT status_check CHECK (status IN ('InTime', 'Delayed', 'Cancelled'))
+    CONSTRAINT status_check CHECK (status IN ('INTIME', 'DELAYED', 'CANCELLED'))
 );

@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) -> authorize
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
@@ -38,5 +38,4 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(userDetails);
     }
-
 }

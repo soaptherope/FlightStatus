@@ -1,9 +1,6 @@
 package airAstana.flightStatus.controller;
 
-import airAstana.flightStatus.exception.ArrivalIsBeforeDepartureException;
-import airAstana.flightStatus.exception.FlightWithIdNotFoundException;
-import airAstana.flightStatus.exception.FlightsWithDestinationNotFoundException;
-import airAstana.flightStatus.exception.FlightsWithOriginNotFoundException;
+import airAstana.flightStatus.exception.*;
 import airAstana.flightStatus.model.Flight;
 import airAstana.flightStatus.model.Status;
 import airAstana.flightStatus.model.dto.FlightDto;
@@ -40,20 +37,21 @@ public class FlightController {
             @RequestParam(required = false) String destination) {
         try {
             return ResponseEntity.ok(flightService.getFlights(Optional.ofNullable(origin), Optional.ofNullable(destination)));
-        } catch (FlightsWithOriginNotFoundException | FlightsWithDestinationNotFoundException e) {
+        } catch (FlightsWithOriginNotFoundException | FlightsWithDestinationNotFoundException |
+                 FlightsWithOriginAndDestinationNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Flight> updateFlightStatus(@PathVariable Long id, @RequestParam Status status) {
+    public ResponseEntity<Flight> updateFlightStatus(@PathVariable Long id, @RequestParam String status) {
         try {
-            return ResponseEntity.ok(flightService.updateFlightStatus(id, status));
+            Status flightStatus = Status.valueOf(status.toUpperCase());
+            return ResponseEntity.ok(flightService.updateFlightStatus(id, flightStatus));
         } catch (FlightWithIdNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
-
 }

@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FlightService {
-    List<Flight> getFlights(Optional<String> destination, Optional<String> origin);
+
+    List<Flight> getFlights(Optional<String> origin, Optional<String> destination);
 
     Flight addFlight(FlightDto flightDto);
 

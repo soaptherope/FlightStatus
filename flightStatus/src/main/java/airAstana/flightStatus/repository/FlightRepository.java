@@ -17,8 +17,9 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
 
     List<Flight> findByOriginAndDestinationOrderByArrival(String origin, String destination);
 
-    boolean existsByOrigin(String origin);
+    boolean existsByOriginIgnoreCase(String origin);
 
-    boolean existsByDestination(String destination);
+    boolean existsByDestinationIgnoreCase(String destination);
 
+    boolean existsByOriginIgnoreCaseAndDestinationIgnoreCase(String origin, String destination);
 }
