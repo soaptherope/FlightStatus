@@ -19,8 +19,11 @@ public class FlightServiceImpl implements FlightService {
 
     private final FlightRepository flightRepository;
 
-    public FlightServiceImpl(FlightRepository flightRepository) {
+    private final TimeZoneService timeZoneService;
+
+    public FlightServiceImpl(FlightRepository flightRepository, TimeZoneService timeZoneService) {
         this.flightRepository = flightRepository;
+        this.timeZoneService = timeZoneService;
     }
 
     private void validateOrigin(String origin) {
@@ -41,12 +44,15 @@ public class FlightServiceImpl implements FlightService {
         }
     }
 
-    private void validateDepartureAndArrival(ZonedDateTime departure, ZonedDateTime arrival) {
+    private void validateDepartureAndArrival(FlightDto flightDto) {
+        ZonedDateTime departure = flightDto.getArrival();
+        ZonedDateTime arrival = flightDto.getDeparture();
+
         if (departure == null || arrival == null ) {
             throw new IllegalArgumentException("invalid date and time provided: " + departure + ", " + arrival);
         }
 
-        if (!arrival.isAfter(departure)) {
+        if (!arrival.plusHours(timeZoneService.getTimeZoneDifference(flightDto)).isAfter(departure)) {
             throw new ArrivalIsBeforeDepartureException("arrival cannot be before departure");
         }
     }
@@ -55,7 +61,7 @@ public class FlightServiceImpl implements FlightService {
         validateStatus(flightDto.getStatus());
         validateOrigin(flightDto.getOrigin());
         validateDestination(flightDto.getDestination());
-        validateDepartureAndArrival(flightDto.getDeparture(), flightDto.getArrival());
+        validateDepartureAndArrival(flightDto);
     }
 
     @Override
@@ -80,7 +86,7 @@ public class FlightServiceImpl implements FlightService {
             validateOrigin(origin);
 
             if (!flightRepository.existsByOriginIgnoreCase(origin)) {
-                throw new FlightsWithOriginNotFoundException("Flights with specified origin not found: " + origin);
+                throw new FlightsWithOriginNotFoundException("flights with specified origin not found: " + origin);
             }
 
             return flightRepository.findByOriginIgnoreCaseOrderByArrival(origin);
@@ -89,7 +95,7 @@ public class FlightServiceImpl implements FlightService {
         validateDestination(destination);
 
         if (!flightRepository.existsByDestinationIgnoreCase(destination)) {
-            throw new FlightsWithDestinationNotFoundException("Flights with specified destination not found: " + destination);
+            throw new FlightsWithDestinationNotFoundException("flights with specified destination not found: " + destination);
         }
 
         return flightRepository.findByDestinationIgnoreCaseOrderByArrival(destination);
@@ -115,7 +121,7 @@ public class FlightServiceImpl implements FlightService {
     public Flight updateFlightStatus(Long id, Status status) {
         validateStatus(status);
             Flight flight = flightRepository.findById(id)
-                    .orElseThrow(() -> new FlightWithIdNotFoundException("flight with specified id not found: " + id));
+                    .orElseThrow(() -> new FlightWithIdNotFoundException("flights with specified id not found: " + id));
 
             flight.setStatus(status);
 
