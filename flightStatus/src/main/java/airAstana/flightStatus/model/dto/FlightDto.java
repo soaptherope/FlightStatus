@@ -2,7 +2,6 @@ package airAstana.flightStatus.model.dto;
 
 import airAstana.flightStatus.model.Status;
 import lombok.Data;
-
 import java.time.ZonedDateTime;
 
 

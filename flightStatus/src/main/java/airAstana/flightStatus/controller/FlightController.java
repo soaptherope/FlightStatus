@@ -8,9 +8,9 @@ import airAstana.flightStatus.service.FlightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/flights")
@@ -36,7 +36,7 @@ public class FlightController {
             @RequestParam(required = false) String origin,
             @RequestParam(required = false) String destination) {
         try {
-            return ResponseEntity.ok(flightService.getFlights(Optional.ofNullable(origin), Optional.ofNullable(destination)));
+            return ResponseEntity.ok(flightService.getFlights(origin, destination));
         } catch (FlightsWithOriginNotFoundException | FlightsWithDestinationNotFoundException |
                  FlightsWithOriginAndDestinationNotFoundException e) {
             return ResponseEntity.notFound().build();

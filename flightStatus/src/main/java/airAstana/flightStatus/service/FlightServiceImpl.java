@@ -7,11 +7,10 @@ import airAstana.flightStatus.model.dto.FlightDto;
 import airAstana.flightStatus.repository.FlightRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.ZonedDateTime;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class FlightServiceImpl implements FlightService {
@@ -61,42 +60,39 @@ public class FlightServiceImpl implements FlightService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Flight> getFlights(Optional<String> origin, Optional<String> destination) {
-        if (origin.isEmpty() && destination.isEmpty()) {
-
+    public List<Flight> getFlights(String origin, String destination) {
+        if (origin == null && destination == null) {
             return flightRepository.findAllByOrderByArrival();
         }
 
-        else if (origin.isPresent() && destination.isPresent()) {
-            validateOrigin(origin.get());
-            validateDestination(destination.get());
+        if (origin != null && destination != null) {
+            validateOrigin(origin);
+            validateDestination(destination);
 
-            if (!flightRepository.existsByOriginIgnoreCaseAndDestinationIgnoreCase(origin.get(), destination.get())) {
-                throw new FlightsWithOriginAndDestinationNotFoundException("flights with specified origin and destination not found: " + origin + ", " + destination);
+            if (!flightRepository.existsByOriginIgnoreCaseAndDestinationIgnoreCase(origin, destination)) {
+                throw new FlightsWithOriginAndDestinationNotFoundException("Flights with specified origin and destination not found: " + origin + ", " + destination);
             }
 
-            return flightRepository.findByOriginAndDestinationOrderByArrival(origin.get(), destination.get());
+            return flightRepository.findByOriginIgnoreCaseAndDestinationIgnoreCaseOrderByArrival(origin, destination);
         }
 
-        else if (origin.isPresent()) {
-            validateOrigin(origin.get());
+        if (origin != null) {
+            validateOrigin(origin);
 
-            if (!flightRepository.existsByOriginIgnoreCase(origin.get())) {
-                throw new FlightsWithOriginNotFoundException("flights with specified origin not found: " + origin);
+            if (!flightRepository.existsByOriginIgnoreCase(origin)) {
+                throw new FlightsWithOriginNotFoundException("Flights with specified origin not found: " + origin);
             }
 
-            return flightRepository.findByOriginOrderByArrival(origin.get());
+            return flightRepository.findByOriginIgnoreCaseOrderByArrival(origin);
         }
 
-        else {
-            validateDestination(destination.get());
+        validateDestination(destination);
 
-            if (!flightRepository.existsByDestinationIgnoreCase(destination.get())) {
-                throw new FlightsWithOriginNotFoundException("flights with specified destination not found: " + destination);
-            }
-
-            return flightRepository.findByDestinationOrderByArrival(destination.get());
+        if (!flightRepository.existsByDestinationIgnoreCase(destination)) {
+            throw new FlightsWithDestinationNotFoundException("Flights with specified destination not found: " + destination);
         }
+
+        return flightRepository.findByDestinationIgnoreCaseOrderByArrival(destination);
     }
 
     @Override
