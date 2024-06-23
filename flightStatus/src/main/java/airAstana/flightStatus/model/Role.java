@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 
-@Data
+
 @Entity
+@Data
 @NoArgsConstructor
-@Table(name="roles")
-public class Role {
+@Table(name = "roles")
+public class Role implements Serializable {
 
     public Role(EnumRole name) {
         this.name = name;
@@ -20,6 +22,7 @@ public class Role {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="code")
+    @Column(name = "code")
+    //@ManyToOne
     private EnumRole name;
 }

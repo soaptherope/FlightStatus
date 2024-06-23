@@ -1,14 +1,14 @@
-package airAstana.flightStatus.service;
+package airAstana.flightStatus.service.impl;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-
 import airAstana.flightStatus.exception.InvalidCityException;
+import airAstana.flightStatus.service.TimeZoneService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,11 +88,10 @@ public class TimeZoneServiceImpl implements TimeZoneService {
     }
 
     @Override
-    public ZonedDateTime getZonedDateTime(ZonedDateTime zonedDateTime, String city) {
+    public OffsetDateTime getZonedDateTime(OffsetDateTime offsetDateTime, String city) {
         int utcOffset = getUtcOffset(getCoordinates(city));
-        ZoneOffset zoneOffset = ZoneOffset.ofHours(utcOffset);
 
-        return zonedDateTime.withZoneSameInstant(zoneOffset);
+        return OffsetDateTime.of(offsetDateTime.toLocalDateTime(), ZoneOffset.ofHours(utcOffset));
     }
 }
 

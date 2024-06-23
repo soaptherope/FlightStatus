@@ -1,16 +1,18 @@
-package airAstana.flightStatus.service;
+package airAstana.flightStatus.service.impl;
 
 import airAstana.flightStatus.exception.*;
 import airAstana.flightStatus.model.Flight;
 import airAstana.flightStatus.model.Status;
 import airAstana.flightStatus.model.dto.FlightDto;
 import airAstana.flightStatus.repository.FlightRepository;
+import airAstana.flightStatus.service.FlightService;
+import airAstana.flightStatus.service.TimeZoneService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLOutput;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -47,25 +49,15 @@ public class FlightServiceImpl implements FlightService {
         }
     }
 
-    private void validateDepartureAndArrival(FlightDto flightDto) {
-        ZonedDateTime departure = flightDto.getArrival();
-        ZonedDateTime arrival = flightDto.getDeparture();
+        private void validateDepartureAndArrival(FlightDto flightDto) {
+            OffsetDateTime departure = flightDto.getDeparture();
+            OffsetDateTime arrival = flightDto.getArrival();
 
-        double[] originCoordinates = timeZoneService.getCoordinates(flightDto.getOrigin());
-        double[] destinationCoordinates = timeZoneService.getCoordinates(flightDto.getDestination());
+            if (departure == null || arrival == null ) {
+                throw new IllegalArgumentException("invalid date and time provided: " + departure + ", " + arrival);
+            }
 
-        int originUtcOffset = timeZoneService.getUtcOffset(originCoordinates);
-        int destinationUtcOffset = timeZoneService.getUtcOffset(destinationCoordinates);
-        int differenceBetweenTimeZones = destinationUtcOffset - originUtcOffset;
-
-        if (departure == null || arrival == null ) {
-            throw new IllegalArgumentException("invalid date and time provided: " + departure + ", " + arrival);
         }
-
-        if (!arrival.plusHours(differenceBetweenTimeZones).isAfter(departure)) {
-            throw new ArrivalIsBeforeDepartureException("arrival cannot be before departure");
-        }
-    }
 
     @Transactional
     private void validateFlight(FlightDto flightDto) {

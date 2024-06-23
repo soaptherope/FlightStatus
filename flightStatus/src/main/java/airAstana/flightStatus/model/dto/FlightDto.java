@@ -2,6 +2,8 @@ package airAstana.flightStatus.model.dto;
 
 import airAstana.flightStatus.model.Status;
 import lombok.Data;
+
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 
@@ -12,9 +14,9 @@ public class FlightDto {
 
     private String destination;
 
-    private ZonedDateTime departure;
+    private OffsetDateTime departure;
 
-    private ZonedDateTime arrival;
+    private OffsetDateTime arrival;
 
     private Status status;
 }

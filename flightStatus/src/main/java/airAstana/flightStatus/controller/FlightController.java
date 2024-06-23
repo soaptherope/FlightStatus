@@ -7,6 +7,7 @@ import airAstana.flightStatus.model.dto.FlightDto;
 import airAstana.flightStatus.service.FlightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class FlightController {
     public ResponseEntity<Flight> addFlight(@RequestBody FlightDto flightDto) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(flightService.addFlight(flightDto));
-        } catch (ArrivalIsBeforeDepartureException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -42,7 +43,7 @@ public class FlightController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<Flight> updateFlightStatus(@PathVariable Long id, @RequestParam String status) {
         try {
             Status flightStatus = Status.valueOf(status.toUpperCase());

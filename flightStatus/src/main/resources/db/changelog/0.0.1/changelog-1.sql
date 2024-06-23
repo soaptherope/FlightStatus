@@ -30,3 +30,8 @@ CREATE TABLE flights (
     status VARCHAR(20) NOT NULL,
     CONSTRAINT status_check CHECK (status IN ('INTIME', 'DELAYED', 'CANCELLED'))
 );
+
+--changeset alishersharipov:add script to prepopulate roles table
+
+INSERT INTO roles (code) VALUES ('USER');
+INSERT INTO roles (code) VALUES ('ADMIN');
