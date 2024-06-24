@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.logging.Logger;
 
 /**
@@ -78,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
      * @param registerRequest RegisterLoginRequest object containing username and password
      * @return User object representing the registered user
      * @throws UsernameTakenException if the username is already taken
-     * @throws IllegalStateException if the user role (EnumRole.USER) is not found
+     * @throws IllegalStateException  if the user role (EnumRole.USER) is not found
      */
     @Override
     @Transactional

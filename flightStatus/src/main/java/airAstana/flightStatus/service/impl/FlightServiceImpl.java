@@ -110,8 +110,8 @@ public class FlightServiceImpl implements FlightService {
      * @param origin      Origin of the flights (optional)
      * @param destination Destination of the flights (optional)
      * @return List of flights matching the origin and destination criteria
-     * @throws FlightsWithOriginNotFoundException            if flights with the specified origin are not found
-     * @throws FlightsWithDestinationNotFoundException       if flights with the specified destination are not found
+     * @throws FlightsWithOriginNotFoundException               if flights with the specified origin are not found
+     * @throws FlightsWithDestinationNotFoundException          if flights with the specified destination are not found
      * @throws FlightsWithOriginAndDestinationNotFoundException if flights with the specified origin and destination are not found
      */
     @Override
@@ -186,7 +186,7 @@ public class FlightServiceImpl implements FlightService {
      * @param status New status to set for the flight
      * @return Updated flight entity
      * @throws FlightWithIdNotFoundException if no flight with the specified ID is found
-     * @throws IllegalArgumentException     if the status is invalid
+     * @throws IllegalArgumentException      if the status is invalid
      */
     @Override
     @Transactional

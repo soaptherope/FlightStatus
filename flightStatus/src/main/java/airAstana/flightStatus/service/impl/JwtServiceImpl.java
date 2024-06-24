@@ -5,10 +5,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
@@ -53,9 +54,9 @@ public class JwtServiceImpl implements JwtService {
     /**
      * Extracts claims from a JWT token using a specified claims resolver function.
      *
-     * @param token         JWT token from which to extract claims
+     * @param token          JWT token from which to extract claims
      * @param claimsResolver Function to resolve specific claims from extracted JWT claims
-     * @param <T>           Type of the claim to be extracted
+     * @param <T>            Type of the claim to be extracted
      * @return Resolved claim value
      */
     public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {

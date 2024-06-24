@@ -1,12 +1,8 @@
 package airAstana.flightStatus.model;
 
-import airAstana.flightStatus.model.Flight;
-import airAstana.flightStatus.model.Status;
-import io.swagger.v3.oas.annotations.media.Schema;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
 import java.time.OffsetDateTime;
 
 public class FlightTests {

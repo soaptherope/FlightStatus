@@ -1,6 +1,7 @@
 package airAstana.flightStatus.configuration;
 
 import lombok.Getter;
+
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.LogManager;

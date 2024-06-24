@@ -2,10 +2,10 @@ package airAstana.flightStatus.service.impl;
 
 import airAstana.flightStatus.repository.UserRepository;
 import airAstana.flightStatus.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import io.swagger.v3.oas.annotations.Operation;
 
 /**
  * implementation of UserService providing user details service.

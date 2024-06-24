@@ -1,6 +1,9 @@
 package airAstana.flightStatus.service.impl;
 
-import airAstana.flightStatus.exception.*;
+import airAstana.flightStatus.exception.FlightWithIdNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithDestinationNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithOriginAndDestinationNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithOriginNotFoundException;
 import airAstana.flightStatus.model.Flight;
 import airAstana.flightStatus.model.Status;
 import airAstana.flightStatus.model.dto.FlightDto;
@@ -11,9 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -182,7 +187,7 @@ public class FlightServiceImplTests {
     void testUpdateFlightStatus_InvalidStatus_ExceptionThrown() {
         Long flightId = 1L;
         Status invalidStatus = null;
-        Flight existingFlight = new Flight(1L,"Origin", "Destination", OffsetDateTime.now(), OffsetDateTime.now().plusHours(1), Status.INTIME);
+        Flight existingFlight = new Flight(1L, "Origin", "Destination", OffsetDateTime.now(), OffsetDateTime.now().plusHours(1), Status.INTIME);
 
         when(flightRepository.findById(flightId)).thenReturn(java.util.Optional.of(existingFlight));
 
