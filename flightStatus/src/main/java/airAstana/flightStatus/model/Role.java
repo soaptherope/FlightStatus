@@ -13,16 +13,15 @@ import java.io.Serializable;
 @Table(name = "roles")
 public class Role implements Serializable {
 
-    public Role(EnumRole name) {
-        this.name = name;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "code")
-    //@ManyToOne
     private EnumRole name;
+
+    public Role(EnumRole name) {
+        this.name = name;
+    }
 }

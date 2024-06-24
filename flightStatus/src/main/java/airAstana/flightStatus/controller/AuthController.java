@@ -1,12 +1,12 @@
 package airAstana.flightStatus.controller;
 
 import airAstana.flightStatus.exception.UsernameTakenException;
+import airAstana.flightStatus.model.User;
 import airAstana.flightStatus.model.dto.JwtAuthResponse;
 import airAstana.flightStatus.model.dto.RegisterLoginRequest;
 import airAstana.flightStatus.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import airAstana.flightStatus.model.User;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,7 +16,7 @@ public class AuthController {
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
-        this.authService =authService;
+        this.authService = authService;
     }
 
     @PostMapping("/register")

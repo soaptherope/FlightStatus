@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 
 
 @Data
 @Entity
-@Table(name="flights")
+@Table(name = "flights")
 public class Flight {
 
     @Id

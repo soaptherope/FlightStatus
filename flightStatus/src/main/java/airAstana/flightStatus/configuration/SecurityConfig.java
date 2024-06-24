@@ -8,12 +8,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -40,8 +40,8 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/auth/login", "POST")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/auth/register", "POST")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/v3/**")).permitAll()
-                        .requestMatchers("/flights/add","/flights/edit").hasAuthority(EnumRole.ADMIN.name())
-                        .requestMatchers("/flights/arrivals").hasAuthority(EnumRole.USER.name())
+                        .requestMatchers("/flights/add", "/flights/edit").hasAuthority(EnumRole.ADMIN.name())
+                        .requestMatchers("/flights/arrivals").hasAnyAuthority(EnumRole.USER.name(), EnumRole.ADMIN.name())
                         .requestMatchers("/auth/admin").hasAuthority(EnumRole.USER.name())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

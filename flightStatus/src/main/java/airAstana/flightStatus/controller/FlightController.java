@@ -1,6 +1,9 @@
 package airAstana.flightStatus.controller;
 
-import airAstana.flightStatus.exception.*;
+import airAstana.flightStatus.exception.FlightWithIdNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithDestinationNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithOriginAndDestinationNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithOriginNotFoundException;
 import airAstana.flightStatus.model.Flight;
 import airAstana.flightStatus.model.Status;
 import airAstana.flightStatus.model.dto.FlightDto;
@@ -8,6 +11,7 @@ import airAstana.flightStatus.service.FlightService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 

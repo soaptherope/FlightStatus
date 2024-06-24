@@ -1,9 +1,6 @@
 package airAstana.flightStatus.service.impl;
 
-import airAstana.flightStatus.model.EnumRole;
-import airAstana.flightStatus.model.User;
 import airAstana.flightStatus.repository.UserRepository;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

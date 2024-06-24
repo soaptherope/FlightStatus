@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
@@ -29,7 +30,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String extractUserName(String token) {
-        return extractClaims(token,Claims::getSubject);
+        return extractClaims(token, Claims::getSubject);
     }
 
     public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {

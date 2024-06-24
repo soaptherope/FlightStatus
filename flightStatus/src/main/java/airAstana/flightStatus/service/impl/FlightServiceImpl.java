@@ -1,6 +1,9 @@
 package airAstana.flightStatus.service.impl;
 
-import airAstana.flightStatus.exception.*;
+import airAstana.flightStatus.exception.FlightWithIdNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithDestinationNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithOriginAndDestinationNotFoundException;
+import airAstana.flightStatus.exception.FlightsWithOriginNotFoundException;
 import airAstana.flightStatus.model.Flight;
 import airAstana.flightStatus.model.Status;
 import airAstana.flightStatus.model.dto.FlightDto;
@@ -11,8 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -49,15 +50,15 @@ public class FlightServiceImpl implements FlightService {
         }
     }
 
-        private void validateDepartureAndArrival(FlightDto flightDto) {
-            OffsetDateTime departure = flightDto.getDeparture();
-            OffsetDateTime arrival = flightDto.getArrival();
+    private void validateDepartureAndArrival(FlightDto flightDto) {
+        OffsetDateTime departure = flightDto.getDeparture();
+        OffsetDateTime arrival = flightDto.getArrival();
 
-            if (departure == null || arrival == null ) {
-                throw new IllegalArgumentException("invalid date and time provided: " + departure + ", " + arrival);
-            }
-
+        if (departure == null || arrival == null) {
+            throw new IllegalArgumentException("invalid date and time provided: " + departure + ", " + arrival);
         }
+
+    }
 
     @Transactional
     private void validateFlight(FlightDto flightDto) {
@@ -125,11 +126,11 @@ public class FlightServiceImpl implements FlightService {
     @Transactional
     public Flight updateFlightStatus(Long id, Status status) {
         validateStatus(status);
-            Flight flight = flightRepository.findById(id)
-                    .orElseThrow(() -> new FlightWithIdNotFoundException("flights with specified id not found: " + id));
+        Flight flight = flightRepository.findById(id)
+                .orElseThrow(() -> new FlightWithIdNotFoundException("flights with specified id not found: " + id));
 
-            flight.setStatus(status);
+        flight.setStatus(status);
 
-            return flightRepository.save(flight);
+        return flightRepository.save(flight);
     }
 }

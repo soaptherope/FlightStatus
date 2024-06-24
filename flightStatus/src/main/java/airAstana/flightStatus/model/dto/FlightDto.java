@@ -4,7 +4,6 @@ import airAstana.flightStatus.model.Status;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
 
 
 @Data
