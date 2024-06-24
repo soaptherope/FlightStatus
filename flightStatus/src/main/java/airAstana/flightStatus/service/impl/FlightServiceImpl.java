@@ -1,5 +1,6 @@
 package airAstana.flightStatus.service.impl;
 
+import airAstana.flightStatus.configuration.LoggerManager;
 import airAstana.flightStatus.exception.FlightWithIdNotFoundException;
 import airAstana.flightStatus.exception.FlightsWithDestinationNotFoundException;
 import airAstana.flightStatus.exception.FlightsWithOriginAndDestinationNotFoundException;
@@ -12,14 +13,16 @@ import airAstana.flightStatus.service.FlightService;
 import airAstana.flightStatus.service.TimeZoneService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.OffsetDateTime;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @Service
 public class FlightServiceImpl implements FlightService {
+
+    private static final Logger logger = LoggerManager.getLogger();
 
     private static final String ORIGIN_DESTINATION_PATTERN = "^[a-zA-Z]+$";
 
@@ -119,6 +122,7 @@ public class FlightServiceImpl implements FlightService {
 
         flight.setStatus(flightDto.getStatus());
 
+        logger.info("a new flight had been created");
         return flightRepository.save(flight);
     }
 
@@ -131,6 +135,7 @@ public class FlightServiceImpl implements FlightService {
 
         flight.setStatus(status);
 
+        logger.info("flight's status with id " + flight.getId() + " had been changed to " + status);
         return flightRepository.save(flight);
     }
 }

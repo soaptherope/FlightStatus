@@ -1,5 +1,6 @@
 package airAstana.flightStatus.service.impl;
 
+import airAstana.flightStatus.configuration.LoggerManager;
 import airAstana.flightStatus.exception.UsernameTakenException;
 import airAstana.flightStatus.model.EnumRole;
 import airAstana.flightStatus.model.Role;
@@ -18,9 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.logging.Logger;
+
 
 @Service
 public class AuthServiceImpl implements AuthService {
+
+    private static final Logger logger = LoggerManager.getLogger();
 
     private static final String USERNAME_PATTERN = "^[a-zA-Z0-9]{3,}$";
 
@@ -68,6 +73,7 @@ public class AuthServiceImpl implements AuthService {
         Role userRole = roleRepository.findByName(EnumRole.USER).orElseThrow(() -> new IllegalStateException("user role not found"));
         user.setRole(userRole);
 
+        logger.info("a new user had been created with a username: " + registerRequest.getUsername());
         return userRepository.save(user);
     }
 
@@ -98,6 +104,8 @@ public class AuthServiceImpl implements AuthService {
     public void getAdmin() {
         User user = getCurrentUser();
         user.setRole(roleRepository.findByName(EnumRole.ADMIN).orElseThrow(() -> new IllegalStateException("user role not found")));
+
+        logger.info(getCurrentUser().getUsername() + " had become an admin");
         userRepository.save(user);
     }
 }

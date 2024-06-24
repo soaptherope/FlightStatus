@@ -1,0 +1,46 @@
+июн. 24, 2024 10:18:48 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: alisher
+июн. 24, 2024 10:18:51 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: alisher
+июн. 24, 2024 10:49:27 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: alisher
+июн. 24, 2024 10:50:42 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: sharipov
+июн. 24, 2024 10:53:12 AM airAstana.flightStatus.service.impl.AuthServiceImpl getAdmin
+INFO: sharipov had become an admin
+июн. 24, 2024 10:54:00 AM airAstana.flightStatus.service.impl.FlightServiceImpl addFlight
+INFO: a new flight had been created with id null
+июн. 24, 2024 10:54:10 AM airAstana.flightStatus.service.impl.FlightServiceImpl addFlight
+INFO: a new flight had been created with id null
+июн. 24, 2024 10:54:56 AM airAstana.flightStatus.service.impl.FlightServiceImpl updateFlightStatus
+INFO: flight's status with id 1 had been changed to CANCELLED
+июн. 24, 2024 10:58:43 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: sharipovalisher
+июн. 24, 2024 11:02:38 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: test
+июн. 24, 2024 11:04:11 AM airAstana.flightStatus.configuration.LoggerManager <clinit>
+SEVERE: could not init a logger: \logging\application.log.lck
+июн. 24, 2024 11:04:12 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8080"]
+июн. 24, 2024 11:04:28 AM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring DispatcherServlet 'dispatcherServlet'
+июн. 24, 2024 11:04:29 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: loggertest
+июн. 24, 2024 11:05:29 AM airAstana.flightStatus.configuration.LoggerManager <clinit>
+SEVERE: could not init a logger: \logging\application.log.lck
+июн. 24, 2024 11:05:29 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8080"]
+июн. 24, 2024 11:05:35 AM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring DispatcherServlet 'dispatcherServlet'
+июн. 24, 2024 11:05:35 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: fdsfdsfds
+июн. 24, 2024 11:08:47 AM airAstana.flightStatus.configuration.LoggerManager <clinit>
+SEVERE: could not init a logger: \logging\application.log.lck
+июн. 24, 2024 11:08:48 AM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8080"]
+июн. 24, 2024 11:08:55 AM org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring DispatcherServlet 'dispatcherServlet'
+июн. 24, 2024 11:08:55 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: fdssdfsd
+июн. 24, 2024 11:09:23 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: sadasdasdsada

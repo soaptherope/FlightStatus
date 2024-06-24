@@ -13,7 +13,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(256) UNIQUE NOT NULL,
     password VARCHAR(256) NOT NULL,
-    role_id INT,
+    role_id BIGINT,
     CONSTRAINT fk_role
         FOREIGN KEY(role_id)
         REFERENCES roles(id)
@@ -35,3 +35,7 @@ CREATE TABLE flights (
 
 INSERT INTO roles (code) VALUES ('USER');
 INSERT INTO roles (code) VALUES ('ADMIN');
+
+
+
+
