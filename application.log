@@ -46,3 +46,7 @@ INFO: a new user had been created with a username: fdssdfsd
 INFO: a new user had been created with a username: sadasdasdsada
 июн. 24, 2024 11:28:14 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
 INFO: a new user had been created with a username: ddsa
+июн. 24, 2024 12:58:13 PM airAstana.flightStatus.configuration.LoggerManager <clinit>
+SEVERE: could not init a logger: \logging\application.log.lck
+июн. 24, 2024 12:58:13 PM org.apache.coyote.AbstractProtocol start
+INFO: Starting ProtocolHandler ["http-nio-8080"]

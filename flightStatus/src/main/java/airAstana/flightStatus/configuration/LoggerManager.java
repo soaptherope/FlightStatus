@@ -19,7 +19,7 @@ public class LoggerManager {
         try {
             LogManager.getLogManager().readConfiguration(LoggerManager.class.getResourceAsStream("/logging/logging.properties"));
 
-            FileHandler fileHandler = new FileHandler("application.log", true);
+            FileHandler fileHandler = new FileHandler("/logging/application.log", true);
             fileHandler.setFormatter(new SimpleFormatter());
 
             logger.addHandler(fileHandler);
