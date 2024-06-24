@@ -58,7 +58,7 @@ public class AuthController {
      * endpoint for getting the admin role
      */
     @GetMapping("/admin")
-    @Operation(summary = "endpoint for admin access")
+    @Operation(summary = "endpoint for getting the admin role")
     public void getAdmin() {
         authService.getAdmin();
     }

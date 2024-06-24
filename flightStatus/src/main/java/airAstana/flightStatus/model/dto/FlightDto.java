@@ -2,7 +2,9 @@ package airAstana.flightStatus.model.dto;
 
 import airAstana.flightStatus.model.Status;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
 
@@ -10,6 +12,8 @@ import java.time.OffsetDateTime;
  * Data Transfer Object representing a flight.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class FlightDto {
 
     @Schema(description = "origin airport city")

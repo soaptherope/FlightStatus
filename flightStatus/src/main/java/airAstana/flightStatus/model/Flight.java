@@ -2,7 +2,9 @@ package airAstana.flightStatus.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
 
@@ -12,6 +14,8 @@ import java.time.OffsetDateTime;
 @Data
 @Entity
 @Table(name = "flights")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Flight {
 
     @Id
