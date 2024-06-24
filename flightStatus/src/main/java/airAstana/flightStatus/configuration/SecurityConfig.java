@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/v3/**")).permitAll()
                         .requestMatchers("/flights/add","/flights/edit").hasAuthority(EnumRole.ADMIN.name())
                         .requestMatchers("/flights/arrivals").hasAuthority(EnumRole.USER.name())
+                        .requestMatchers("/auth/admin").hasAuthority(EnumRole.USER.name())
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

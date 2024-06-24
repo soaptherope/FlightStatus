@@ -10,9 +10,10 @@ import airAstana.flightStatus.repository.UserRepository;
 import airAstana.flightStatus.model.User;
 import airAstana.flightStatus.service.AuthService;
 import airAstana.flightStatus.service.JwtService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,6 +71,7 @@ public class AuthServiceImpl implements AuthService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public JwtAuthResponse login(RegisterLoginRequest loginRequest) {
         validateUsername(loginRequest);
         validatePassword(loginRequest);
@@ -85,5 +87,17 @@ public class AuthServiceImpl implements AuthService {
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setToken(jwt);
         return jwtAuthResponse;
+    }
+
+    private User getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+    }
+
+    public void getAdmin() {
+        User user = getCurrentUser();
+        user.setRole(roleRepository.findByName(EnumRole.ADMIN).orElseThrow(() -> new IllegalStateException("user role not found")));
+        userRepository.save(user);
     }
 }

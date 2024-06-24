@@ -6,6 +6,7 @@ import airAstana.flightStatus.model.User;
 
 public interface AuthService {
     User register(RegisterLoginRequest registerRequest);
-    public JwtAuthResponse login(RegisterLoginRequest loginRequest);
+    JwtAuthResponse login(RegisterLoginRequest loginRequest);
 
+    void getAdmin();
 }
