@@ -1,12 +1,15 @@
 package airAstana.flightStatus.service.impl;
 
 import airAstana.flightStatus.repository.UserRepository;
-import org.springframework.security.core.userdetails.UserDetails;
+import airAstana.flightStatus.service.UserService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import io.swagger.v3.oas.annotations.Operation;
 
-
+/**
+ * implementation of UserService providing user details service.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -16,9 +19,16 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * retrieves a UserDetailsService for the specified username.
+     *
+     * @return UserDetailsService containing user details
+     * @throws UsernameNotFoundException if the user is not found
+     */
     @Override
+    @Operation(summary = "get User Details Service")
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsernameIgnoreCase(username)
-                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

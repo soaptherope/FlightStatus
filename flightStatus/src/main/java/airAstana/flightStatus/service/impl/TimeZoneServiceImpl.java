@@ -2,12 +2,10 @@ package airAstana.flightStatus.service.impl;
 
 import airAstana.flightStatus.exception.InvalidCityException;
 import airAstana.flightStatus.service.TimeZoneService;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -15,15 +13,29 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-
+/**
+ * implementation of TimeZoneService providing operations related to time zones and city coordinates.
+ */
 @Service
 public class TimeZoneServiceImpl implements TimeZoneService {
 
     @Value("${google.apikey}")
     String API_KEY;
 
-    public double[] getCoordinates(String city) throws InvalidCityException {
+    /**
+     * retrieves coordinates (latitude and longitude) for a given city using Google Maps Geocoding API.
+     *
+     * @param city Name of the city
+     * @return Array containing latitude and longitude coordinates
+     * @throws InvalidCityException If the city provided is invalid or not found
+     */
+    @Override
+    @Operation(summary = "get coordinates for city")
+    public double[] getCoordinates(@Parameter(description = "city name for which coordinates are requested") String city) throws InvalidCityException {
         double[] coordinates = new double[2];
 
         try {
@@ -53,16 +65,23 @@ public class TimeZoneServiceImpl implements TimeZoneService {
                     return coordinates;
                 }
             } else {
-                throw new InvalidCityException("invalid city specified");
+                throw new InvalidCityException("Invalid city specified: " + city);
             }
         } catch (IOException | InterruptedException | JSONException e) {
-            e.printStackTrace();
+            throw new InvalidCityException("Error retrieving coordinates for city: " + city);
         }
         return coordinates;
     }
 
+    /**
+     * retrieves the UTC offset in hours for a given geographical coordinates using Google Maps Time Zone API.
+     *
+     * @param coordinates Array containing latitude and longitude coordinates
+     * @return UTC offset in hours
+     */
     @Override
-    public int getUtcOffset(double[] coordinates) {
+    @Operation(summary = "Get UTC Offset for Coordinates")
+    public int getUtcOffset(@Parameter(description = "array containing latitude and longitude coordinates") double[] coordinates) {
         double lat = coordinates[0];
         double lng = coordinates[1];
 
@@ -80,20 +99,26 @@ public class TimeZoneServiceImpl implements TimeZoneService {
             if ("OK".equals(status)) {
                 return jsonObject.getInt("rawOffset") / 3600;
             } else {
-                throw new JSONException("error while getting data");
+                throw new JSONException("Error while getting UTC offset");
             }
         } catch (IOException | InterruptedException | JSONException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error retrieving UTC offset for coordinates");
         }
-        return 0;
     }
 
+    /**
+     * Retrieves OffsetDateTime adjusted to the time zone of a given city.
+     *
+     * @param offsetDateTime Original OffsetDateTime
+     * @param city           Name of the city
+     * @return OffsetDateTime adjusted to the city's time zone
+     */
     @Override
-    public OffsetDateTime getZonedDateTime(OffsetDateTime offsetDateTime, String city) {
+    @Operation(summary = "Get Zoned Date Time for City")
+    public OffsetDateTime getZonedDateTime(@Parameter(description = "Original OffsetDateTime") OffsetDateTime offsetDateTime,
+                                           @Parameter(description = "City name for which time zone is requested") String city) {
         int utcOffset = getUtcOffset(getCoordinates(city));
 
         return OffsetDateTime.of(offsetDateTime.toLocalDateTime(), ZoneOffset.ofHours(utcOffset));
     }
 }
-
-

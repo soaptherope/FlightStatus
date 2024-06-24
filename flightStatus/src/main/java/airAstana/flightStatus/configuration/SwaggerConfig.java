@@ -31,8 +31,8 @@ public class SwaggerConfig {
                         )
                 )
                 .info(new Info()
-                        .title("Case Management Service")
-                        .description("Claim Event Information")
+                        .title("Flight Management Service")
+                        .description("View, add and edit flights")
                         .version("1.0")
                 );
     }

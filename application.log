@@ -44,3 +44,5 @@ INFO: Initializing Spring DispatcherServlet 'dispatcherServlet'
 INFO: a new user had been created with a username: fdssdfsd
 июн. 24, 2024 11:09:23 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
 INFO: a new user had been created with a username: sadasdasdsada
+июн. 24, 2024 11:28:14 AM airAstana.flightStatus.service.impl.AuthServiceImpl register
+INFO: a new user had been created with a username: ddsa

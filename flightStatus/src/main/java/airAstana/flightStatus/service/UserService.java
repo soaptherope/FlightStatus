@@ -1,4 +1,4 @@
-package airAstana.flightStatus.service.impl;
+package airAstana.flightStatus.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 

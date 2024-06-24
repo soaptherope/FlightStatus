@@ -1,7 +1,8 @@
 package airAstana.flightStatus.configuration;
 
 import airAstana.flightStatus.model.EnumRole;
-import airAstana.flightStatus.service.impl.UserService;
+import airAstana.flightStatus.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
+/**
+ * configuration class for Spring Security setup.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -31,7 +34,15 @@ public class SecurityConfig {
         this.userService = userService;
     }
 
+    /**
+     * configures security filter chain for HTTP requests.
+     *
+     * @param http HttpSecurity object to configure
+     * @return SecurityFilterChain configured with specified rules
+     * @throws Exception if configuration fails
+     */
     @Bean
+    @Operation(summary = "configures security filter chain for HTTP requests")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -50,7 +61,13 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * provides an AuthenticationProvider using DaoAuthenticationProvider.
+     *
+     * @return AuthenticationProvider instance
+     */
     @Bean
+    @Operation(summary = "Provides an AuthenticationProvider using DaoAuthenticationProvider")
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userService.userDetailsService());
@@ -58,12 +75,26 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 
+    /**
+     * provides a PasswordEncoder instance using BCryptPasswordEncoder.
+     *
+     * @return PasswordEncoder instance
+     */
     @Bean
+    @Operation(summary = "Provides a PasswordEncoder instance using BCryptPasswordEncoder")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * provides an AuthenticationManager instance.
+     *
+     * @param config AuthenticationConfiguration object
+     * @return AuthenticationManager instance
+     * @throws Exception if configuration fails
+     */
     @Bean
+    @Operation(summary = "Provides an AuthenticationManager instance")
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
